@@ -1,0 +1,9 @@
+# NoNether Global Configuration
+# Disables portals to the Nether
+allow-nether: false
+
+# Disables portals to the End
+allow-end: false
+
+# Whether to show a message to the player when their portal teleport is blocked
+show-portal-disabled-message: true

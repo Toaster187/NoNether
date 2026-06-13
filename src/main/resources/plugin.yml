@@ -1,0 +1,13 @@
+name: NoNether
+version: '${project.version}'
+main: com.toasterfritzi.nonether.NoNether
+api-version: '26.1'
+commands:
+  portalrule:
+    description: Manage portal rules.
+    usage: /portalrule <rule> [value]
+    permission: nonether.portalrule
+permissions:
+  nonether.portalrule:
+    description: Allows modifying portal rules.
+    default: op

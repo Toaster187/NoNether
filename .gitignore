@@ -1,0 +1,23 @@
+# Maven build output
+target/
+
+# Local test server
+testserver/
+
+# Downloaded Maven files
+maven.zip
+apache-maven-*/
+
+# IDE settings and project files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+*.sublime-workspace
+
+# OS temporary files
+Thumbs.db
+desktop.ini
+.DS_Store
