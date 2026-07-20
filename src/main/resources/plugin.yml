@@ -1,7 +1,7 @@
 name: NoNether
 version: '${project.version}'
 main: com.toasterfritzi.nonether.NoNether
-api-version: '26.1'
+api-version: '26.2'
 commands:
   portalrule:
     description: Manage portal rules.

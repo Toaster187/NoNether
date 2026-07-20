@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,39 +27,35 @@ public class PortalListener implements Listener {
 
     @EventHandler
     public void onPlayerPortal(PlayerPortalEvent event) {
-        Location to = event.getTo();
-        if (to == null || to.getWorld() == null) {
-            return;
-        }
-
-        Environment targetEnv = to.getWorld().getEnvironment();
         boolean allowNether = plugin.getConfig().getBoolean("allow-nether", false);
         boolean allowEnd = plugin.getConfig().getBoolean("allow-end", false);
 
-        if (targetEnv == Environment.NETHER && !allowNether) {
-            event.setCancelled(true);
-            sendMessageWithCooldown(event.getPlayer(), ChatColor.RED + "The Nether is currently disabled.");
-        } else if (targetEnv == Environment.THE_END && !allowEnd) {
-            event.setCancelled(true);
-            sendMessageWithCooldown(event.getPlayer(), ChatColor.RED + "The End is currently disabled.");
+        if (event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
+            if (!allowNether && event.getFrom().getWorld().getEnvironment() != Environment.NETHER) {
+                event.setCancelled(true);
+                sendMessageWithCooldown(event.getPlayer(), ChatColor.RED + "The Nether is currently disabled.");
+            }
+        } else if (event.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) {
+            if (!allowEnd && event.getFrom().getWorld().getEnvironment() != Environment.THE_END) {
+                event.setCancelled(true);
+                sendMessageWithCooldown(event.getPlayer(), ChatColor.RED + "The End is currently disabled.");
+            }
         }
     }
 
     @EventHandler
     public void onEntityPortal(EntityPortalEvent event) {
-        Location to = event.getTo();
-        if (to == null || to.getWorld() == null) {
-            return;
-        }
-
-        Environment targetEnv = to.getWorld().getEnvironment();
         boolean allowNether = plugin.getConfig().getBoolean("allow-nether", false);
         boolean allowEnd = plugin.getConfig().getBoolean("allow-end", false);
 
-        if (targetEnv == Environment.NETHER && !allowNether) {
-            event.setCancelled(true);
-        } else if (targetEnv == Environment.THE_END && !allowEnd) {
-            event.setCancelled(true);
+        if (event.getPortalType() == org.bukkit.PortalType.NETHER) {
+            if (!allowNether && event.getFrom().getWorld().getEnvironment() != Environment.NETHER) {
+                event.setCancelled(true);
+            }
+        } else if (event.getPortalType() == org.bukkit.PortalType.ENDER) {
+            if (!allowEnd && event.getFrom().getWorld().getEnvironment() != Environment.THE_END) {
+                event.setCancelled(true);
+            }
         }
     }
 
